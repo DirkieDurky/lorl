@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace lorl;
@@ -7,28 +8,46 @@ namespace lorl;
 internal class Program
 {
     public static List<Int32> Indices = new();
+    public static Process process = new();
 
     private static void Main(String[] args)
     {
-        String input = Console.ReadLine();
-
-        for (Int32 i = 0; i < input.Length; i++)
+        while (true)
         {
-            Char c = input[i];
-            if (c is 'I' or 'l') Indices.Add(i);
-        }
+            String? input = Console.ReadLine();
+            if (String.IsNullOrEmpty(input))
+            {
+                Console.WriteLine("no");
+                continue;
+            }
 
-        Program program = new();
-        program.ReplaceIL(input, 0);
+            for (Int32 i = 0; i < input.Length; i++)
+            {
+                Char c = input[i];
+                if (c is 'I' or 'l') Indices.Add(i);
+            }
+
+            if (Indices.Count > 0)
+            {
+                ReplaceIL(input, 0);
+                Indices.Clear();
+            }
+            else
+            {
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.FileName = input;
+                process.Start();
+            }
+        }
     }
 
-    private void ReplaceIL(String str, Int32 index)
+    private static void ReplaceIL(String? str, Int32 index)
     {
         Replace(str, index, 'I');
         Replace(str, index, 'l');
     }
 
-    private void Replace(String str, Int32 index, Char replacement)
+    private static void Replace(String? str, Int32 index, Char replacement)
     {
         StringBuilder sb = new(str);
         sb.Remove(Indices[index], 1);
@@ -41,7 +60,9 @@ internal class Program
         }
         else
         {
-            Console.WriteLine(str);
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.FileName = str;
+            process.Start();
         }
     }
 }
