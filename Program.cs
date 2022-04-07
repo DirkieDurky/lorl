@@ -24,7 +24,7 @@ internal class Program
             String[] args = input.Split(' ');
             String str = args[0];
 
-            if (args.Length is < 1)
+            if (args.Length < 1)
             {
                 Console.WriteLine("no");
                 continue;
