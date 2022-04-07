@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
-using System.IO.Pipes;
 using System.Text;
-using Microsoft.VisualBasic;
 
 namespace lorl;
 
@@ -113,6 +111,7 @@ internal class Program
             Results.Clear();
             Indices.Clear();
         }
+        // ReSharper disable once FunctionNeverReturns
     }
 
     private static void ReplaceIL(String? str, Int32 index)
